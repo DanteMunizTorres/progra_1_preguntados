@@ -1,12 +1,12 @@
 import pygame 
 import random
 from Funciones import *
-from Preguntas import *
+from data.Preguntas import *
 
 pygame.init()
 cuadro_pregunta = {}
 #cuadro_pregunta["superficie"] = pygame.Surface(TAMAÑO_PREGUNTA)
-cuadro_pregunta["superficie"] = pygame.image.load("fondo.jpg")
+cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
 cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
 cuadro_pregunta["rectangulo"] = cuadro_pregunta["superficie"].get_rect()
 #cuadro_pregunta["superficie"].fill(COLOR_ROJO)
@@ -33,7 +33,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
         pygame.time.delay(250)
         #cuadro_pregunta["superficie"].fill(COLOR_ROJO)
         #Limpio la superficie
-        cuadro_pregunta["superficie"] = pygame.image.load("fondo.jpg")
+        cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
         cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
         for i in range(len(lista_respuestas)):
             lista_respuestas[i]["superficie"].fill(COLOR_AZUL)

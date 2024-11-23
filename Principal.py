@@ -1,11 +1,11 @@
 import pygame
 from Funciones import *
 from Constantes import *
-from Menu import *
-from Juego import *
-from Configuraciones import *
-from Puntuaciones import *
-from Terminado import *
+from pantallas.Menu import *
+from pantallas.Juego import *
+from pantallas.Configuraciones import *
+from pantallas.Puntuaciones import *
+from pantallas.Terminado import *
 
 pygame.init()
 pygame.display.set_caption("JUEGO 314")
@@ -29,7 +29,7 @@ while corriendo:
         if bandera_juego == False:
             porcentaje_coma = datos_juego["volumen_musica"] / 100
             pygame.mixer.init()
-            pygame.mixer.music.load("musica.mp3")
+            pygame.mixer.music.load("assets/sounds/musica.mp3")
             pygame.mixer.music.set_volume(porcentaje_coma)
             pygame.mixer.music.play(-1)
             bandera_juego = True

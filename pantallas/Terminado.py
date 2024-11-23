@@ -6,7 +6,7 @@ pygame.init()
 
 cuadro_texto = {}
 #cuadro_texto ["superficie"] = pygame.Surface(CUADRO_TEXTO)
-cuadro_texto["superficie"] = pygame.image.load("fondo.jpg")
+cuadro_texto["superficie"] = pygame.image.load("assets/images/fondo.jpg")
 cuadro_texto["superficie"] = pygame.transform.scale(cuadro_texto["superficie"],CUADRO_TEXTO)
 cuadro_texto["rectangulo"] = cuadro_texto["superficie"].get_rect()
 #cuadro_texto["superficie"].fill(COLOR_AZUL)
@@ -31,7 +31,7 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
             if tecla_presionada == "backspace" and len(nombre) > 0:
                 #nombre = 'Mariano' -> 'Marian'
                 nombre = nombre[0:-1]
-                cuadro_texto["superficie"] = pygame.image.load("fondo.jpg")
+                cuadro_texto["superficie"] = pygame.image.load("assets/images/fondo.jpg")
                 cuadro_texto["superficie"] = pygame.transform.scale(cuadro_texto["superficie"],CUADRO_TEXTO)
                 #cuadro_texto["superficie"].fill(COLOR_AZUL)
                 #Si su superficie parte de una imagen
