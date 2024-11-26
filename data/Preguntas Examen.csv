@@ -1,0 +1,33 @@
+﻿Pregunta;Respuesta 1;Respuesta 2 ;Respuesta 3;Respuesta 4;Respuesta correcta
+¿Qué es un algoritmo?;Una variable en un programa; Un conjunto de pasos para resolver un problema;Un tipo de error de programación; Un lenguaje de programación; 2
+¿Cuál de estos es un lenguaje de programación de alto nivel?; Assembly; C; Java; Máquina;3
+¿Qué es un bucle for?; Una estructura de control que repite un bloque de código mientras se cumpla una condición; Una estructura de control que repite un bloque de código un número específico de veces; Un tipo de variable;Un tipo de función recursiva; 2
+¿Qué significa 'debugging'?; Escribir código;Encontrar y corregir errores en el código; Crear una nueva base de datos;Generar un informe de errores; 2
+¿Qué es una clase en programación orientada a objetos?;Un bloque de código que define las funciones;Un tipo de error de ejecución;Un molde o plantilla para crear objetos;Una variable global; 3
+¿Qué es un 'array' o arreglo?; Una lista de valores del mismo tipo; Una función recursiva; Una estructura de control; Un tipo de archivo de texto; 1
+¿Qué es un 'if' en programación?;Una estructura que permite ejecutar código basado en una condición;Un tipo de función;Un tipo de variable; Un tipo de ciclo o bucle; 1
+¿Qué es una API (Interfaz de Programación de Aplicaciones)?;Un lenguaje de programación de alto nivel; Un conjunto de herramientas que facilita la programación; Un protocolo para la comunicación entre programas; Un sistema operativo;3
+¿Qué hace un compilador?;Transforma el código fuente a código de máquina;Ejecuta el código fuente;Almacena el código fuente en una base de datos;Comprime el código fuente para ahorrar espacio;
+
+¿Qué es una variable en programación?;Un espacio en memoria para almacenar un valor;Un tipo de ciclo o bucle;Un error de programación;Una función recursiva;1
+¿Cuál de los siguientes es un lenguaje de programación interpretado?;C++;Python;Java;Assembly;2
+¿Qué significa 'OOP' (Programación Orientada a Objetos)?;Un paradigma que utiliza objetos que contienen datos y métodos;Un lenguaje de programación específico;Un tipo de base de datos;Un método de optimización de código;1
+¿Cuál es la principal diferencia entre un 'while loop' y un 'for loop';Un 'while loop' siempre repite el código una vez;Un 'for loop' se utiliza solo en funciones recursivas;Un 'while loop' repite el código mientras se cumpla una condición;No hay diferencia entre ellos;3
+¿Qué es la recursión en programación?;Un tipo de error que ocurre cuando el código se repite sin control;Un proceso en el que una función se llama a sí misma;Un tipo de variable;Una estructura de control para repetir código;2
+¿Qué es Git?;Un sistema de base de datos;Un lenguaje de programación;Un sistema de control de versiones;Un tipo de servidor web;3
+¿Qué es un 'commit' en Git?;Un cambio en el código que se guarda en el repositorio;Un tipo de error en el código;Un tipo de archivo en Git;Un comando para eliminar archivos;1
+¿Qué hace una función en programación?;Permite ejecutar código de forma repetida;Define el comportamiento y los datos de un objeto;Permite organizar y reutilizar código;Almacena valores en variables;3
+¿Qué es HTML?;Un lenguaje de programación de alto nivel; lenguaje de marcado utilizado para estructurar contenido en la web;Un tipo de base de datos;Un protocolo de comunicación en la red;2
+¿Qué hace CSS?;Define la estructura de las bases de datos;Proporciona estilo visual a las páginas web;Procesa imágenes en la web;Controla las interacciones del usuario en una página web;2
+¿Qué es un 'bug' en programación?;Un tipo de variable;Un error o fallo en el código de un programa;Un tipo de ciclo o bucle;Una herramienta para depurar código;2
+¿Qué es la programación funcional?;Un enfoque basado en el uso de funciones puras y evitar el estado mutable;Un enfoque basado en clases y objetos;Un tipo de ciclo que repite funciones;Un lenguaje de programación específico;1
+¿Qué es un framework en programación?;Un lenguaje de programación específico;Un conjunto de herramientas y bibliotecas que facilitan el desarrollo;Un tipo de base de datos;Un tipo de servidor web;2
+¿Qué es un servidor web?;Un programa que gestiona bases de datos;Un tipo de lenguaje de programación;Un programa que aloja sitios web y responde a solicitudes;Un sistema operativo;3
+¿Qué es una base de datos?;Un conjunto de instrucciones en código;Un espacio de almacenamiento en la memoria RAM;Un sistema para organizar, almacenar y acceder a grandes cantidades de datos;Un lenguaje de programación;3
+¿Qué es SQL?;Un tipo de lenguaje de programación orientado a objetos;Un lenguaje utilizado para gestionar bases de datos;Un algoritmo de búsqueda;Un sistema de control de versiones;2
+¿Qué es el concepto de 'herencia' en programación orientada a objetos?;El proceso de eliminar objetos viejos;Un tipo de función recursiva;El mecanismo por el cual una clase puede heredar propiedades y métodos de otra clase; La ejecución de código en segundo plano;3
+¿Qué es el principio DRY?;Es una estrategia para escribir código más largo;Es un principio que significa 'Don't Repeat Yourself', es decir, evitar la duplicación de código;Es una técnica para depurar errores;Es una forma de organizar las bases de datos;2
+¿Qué es un 'push' en Git?;Subir cambios al repositorio remoto;Descargar cambios de un repositorio remoto; Eliminar un archivo del repositorio;Cambiar el nombre de un archivo;1
+¿Qué hace un 'merge' en Git?;Combina dos ramas de código;Elimina archivos del repositorio;Descarga archivos del repositorio;Crea un nuevo repositorio;1
+¿Qué es una 'búsqueda binaria'?;Un algoritmo para ordenar datos;Un algoritmo eficiente para encontrar un elemento en una lista ordenada;Un tipo de base de datos;Un tipo de ciclo;2
+

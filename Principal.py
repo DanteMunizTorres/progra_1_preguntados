@@ -22,7 +22,7 @@ while corriendo:
     #Imprimir en pantalla esa informacion -> No lo programamos aca
     cola_eventos = pygame.event.get()
     reloj.tick(FPS)
-        
+
     if ventana_actual == "menu":
         ventana_actual = mostrar_menu(pantalla,cola_eventos)
     elif ventana_actual == "juego":
