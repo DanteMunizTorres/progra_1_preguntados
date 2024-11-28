@@ -1,24 +1,37 @@
 import pygame 
 import random
 from Funciones import *
-from data.Preguntas import *
+# from data.Preguntas import *
+from utils.files_management import parsear_archivo_preguntas
 
 pygame.init()
-cuadro_pregunta = {}
-#cuadro_pregunta["superficie"] = pygame.Surface(TAMAÑO_PREGUNTA)
-cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
-cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
-cuadro_pregunta["rectangulo"] = cuadro_pregunta["superficie"].get_rect()
+
 #cuadro_pregunta["superficie"].fill(COLOR_ROJO)
 
-lista_respuestas = []
+def create_cuadro_pregunta() -> dict:
+    cuadro_pregunta = {}
+    #cuadro_pregunta["superficie"] = pygame.Surface(TAMAÑO_PREGUNTA)
+    cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
+    cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
+    cuadro_pregunta["rectangulo"] = cuadro_pregunta["superficie"].get_rect()
+    return cuadro_pregunta
 
-for i in range(3):
-    cuadro_respuesta = {}
-    cuadro_respuesta["superficie"] = pygame.Surface(TAMAÑO_RESPUESTA)
-    cuadro_respuesta["rectangulo"] = cuadro_respuesta["superficie"].get_rect()
-    cuadro_respuesta["superficie"].fill(COLOR_AZUL)
-    lista_respuestas.append(cuadro_respuesta)
+def create_lista_respuestas() -> list:
+    lista_respuestas = []
+    for i in range(4):
+        cuadro_respuesta = {}
+        cuadro_respuesta["superficie"] = pygame.Surface(TAMAÑO_RESPUESTA)
+        cuadro_respuesta["rectangulo"] = cuadro_respuesta["superficie"].get_rect()
+        cuadro_respuesta["superficie"].fill(COLOR_AZUL)
+        lista_respuestas.append(cuadro_respuesta)
+    return lista_respuestas
+    
+
+
+cuadro_pregunta = create_cuadro_pregunta()
+lista_respuestas = create_lista_respuestas()
+lista_preguntas = parsear_archivo_preguntas()
+
     
 indice = 0 #Son inmutables
 bandera_respuesta = False #Son inmutables
@@ -48,6 +61,8 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
             for i in range(len(lista_respuestas)):
                 if lista_respuestas[i]["rectangulo"].collidepoint(evento.pos):
                     respuesta_seleccionada = (i + 1)
+                    print("respuesta_seleccionada:", respuesta_seleccionada)
+                    print("pregunta_actual[respuesta_correcta]:", pregunta_actual["respuesta_correcta"])
                     
                     if respuesta_seleccionada == pregunta_actual["respuesta_correcta"]:
                         ACIERTO_SONIDO.play()
@@ -71,18 +86,20 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                     bandera_respuesta = True
 
     
-    pantalla.fill(COLOR_VIOLETA)
+    pantalla.fill(COLOR_BLANCO)
     #pantalla.blit(fondo,(0,0))
     
     mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual["pregunta"]}",(20,20),FUENTE_27,COLOR_NEGRO)
     mostrar_texto(lista_respuestas[0]["superficie"],f"{pregunta_actual["respuesta_1"]}",(20,20),FUENTE_22,COLOR_BLANCO)
     mostrar_texto(lista_respuestas[1]["superficie"],f"{pregunta_actual["respuesta_2"]}",(20,20),FUENTE_22,COLOR_BLANCO)
     mostrar_texto(lista_respuestas[2]["superficie"],f"{pregunta_actual["respuesta_3"]}",(20,20),FUENTE_22,COLOR_BLANCO)
+    mostrar_texto(lista_respuestas[3]["superficie"],f"{pregunta_actual["respuesta_4"]}",(20,20),FUENTE_22,COLOR_BLANCO)
     
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(80,80))
-    lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(125,245))#r1
-    lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(125,315))#r2
-    lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(125,385))#r3
+    lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(75,245))#r1
+    lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(75,345))#r2
+    lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(75,445))#r3
+    lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(75,545))#r4
     
 
     pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
