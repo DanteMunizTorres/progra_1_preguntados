@@ -50,6 +50,6 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
     pantalla.fill(COLOR_BLANCO)
     cuadro_texto["rectangulo"] = pantalla.blit(cuadro_texto["superficie"],(200,200))
     mostrar_texto(cuadro_texto["superficie"],nombre,(10,0),FUENTE_40,COLOR_BLANCO)
-    mostrar_texto(pantalla,f"USTED OBTUVO {datos_juego["puntuacion"]} PUNTOS",(250,50),FUENTE_32,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"USTED OBTUVO {datos_juego['puntuacion']} PUNTOS",(250,50),FUENTE_32,COLOR_NEGRO)
     
     return retorno

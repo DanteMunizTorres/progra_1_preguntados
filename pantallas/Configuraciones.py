@@ -4,20 +4,14 @@ from Funciones import *
 
 pygame.init()
 
-boton_suma = {}
-boton_suma["superficie"] = pygame.Surface(TAMAÑO_BOTON_VOLUMEN)
-boton_suma["rectangulo"] = boton_suma["superficie"].get_rect()
-boton_suma["superficie"].fill(COLOR_ROJO)
+#CREAMOS BOTONES
+boton_suma = crear_objeto(TAMAÑO_BOTON_VOLUMEN,COLOR_ROJO)
+boton_resta = crear_objeto(TAMAÑO_BOTON_VOLUMEN,COLOR_ROJO)
+boton_volver = crear_objeto((100,30),COLOR_AZUL)
 
-boton_resta = {}
-boton_resta["superficie"] = pygame.Surface(TAMAÑO_BOTON_VOLUMEN)
-boton_resta["rectangulo"] = boton_resta["superficie"].get_rect()
-boton_resta["superficie"].fill(COLOR_ROJO)
 
-boton_volver = {}
-boton_volver["superficie"] = pygame.Surface(TAMAÑO_BOTON_VOLVER)
-boton_volver["rectangulo"] = boton_volver["superficie"].get_rect()
-boton_volver["superficie"].fill(COLOR_AZUL)
+
+
 
 def mostrar_ajustes(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict) -> str:
     retorno = "configuracion"
@@ -54,6 +48,6 @@ def mostrar_ajustes(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event
     mostrar_texto(boton_suma["superficie"],"VOL+",(0,10),FUENTE_22,COLOR_NEGRO)
     mostrar_texto(boton_resta["superficie"],"VOL-",(0,10),FUENTE_22,COLOR_NEGRO)
     mostrar_texto(boton_volver["superficie"],"VOLVER",(5,5),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(pantalla,f"{datos_juego["volumen_musica"]} %",(200,200),FUENTE_50,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"{datos_juego['volumen_musica']} %",(200,200),FUENTE_50,COLOR_NEGRO)
     
     return retorno

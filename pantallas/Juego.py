@@ -1,36 +1,24 @@
 import pygame 
 import random
+from Constantes import * 
 from Funciones import *
 # from data.Preguntas import *
 from utils.files_management import parsear_archivo_preguntas
 
+
+
 pygame.init()
 
-#cuadro_pregunta["superficie"].fill(COLOR_ROJO)
+#CREO CUADROS DE PREGUNTAS, RESPUESTAS Y BOTONES INTERACTIVOS
 
-def create_cuadro_pregunta() -> dict:
-    cuadro_pregunta = {}
-    #cuadro_pregunta["superficie"] = pygame.Surface(TAMAÑO_PREGUNTA)
-    cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
-    cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
-    cuadro_pregunta["rectangulo"] = cuadro_pregunta["superficie"].get_rect()
-    return cuadro_pregunta
-
-def create_lista_respuestas() -> list:
-    lista_respuestas = []
-    for i in range(4):
-        cuadro_respuesta = {}
-        cuadro_respuesta["superficie"] = pygame.Surface(TAMAÑO_RESPUESTA)
-        cuadro_respuesta["rectangulo"] = cuadro_respuesta["superficie"].get_rect()
-        cuadro_respuesta["superficie"].fill(COLOR_AZUL)
-        lista_respuestas.append(cuadro_respuesta)
-    return lista_respuestas
-    
-
-
-cuadro_pregunta = create_cuadro_pregunta()
-lista_respuestas = create_lista_respuestas()
+boton_volumen_silenciado = crear_objeto_imagen("assets\images\mute.png",(25,25))
+boton_volumen = crear_objeto_imagen("assets\images\sound.png",(25,25))
+boton_rect = boton_rect = pygame.Rect(470, 770, 25, 25)
+cuadro_pregunta = crear_objeto(TAMAÑO_PREGUNTA,COLOR_NEGRO)
+lista_respuestas = crear_cuadros(4,TAMAÑO_RESPUESTA,COLOR_NEGRO)
 lista_preguntas = parsear_archivo_preguntas()
+musica_activa = True
+vida_extra = False
 
     
 indice = 0 #Son inmutables
@@ -40,12 +28,13 @@ random.shuffle(lista_preguntas)
 def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict) -> str:
     global indice
     global bandera_respuesta
-    
+    global musica_activa
+    global vida_extra
+
     retorno = "juego"
     if bandera_respuesta:
         pygame.time.delay(250)
-        #cuadro_pregunta["superficie"].fill(COLOR_ROJO)
-        #Limpio la superficie
+        
         cuadro_pregunta["superficie"] = pygame.image.load("assets/images/fondo.jpg")
         cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)
         for i in range(len(lista_respuestas)):
@@ -57,8 +46,20 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     for evento in cola_eventos:
         if evento.type == pygame.QUIT:
             retorno = "salir"
+        
         elif evento.type == pygame.MOUSEBUTTONDOWN:
+            
+            if boton_rect.collidepoint(evento.pos):
+                    if musica_activa:
+                        pygame.mixer_music.pause()
+                        
+                    else:
+                        pygame.mixer.music.unpause()
+                        
+                    musica_activa = not musica_activa
             for i in range(len(lista_respuestas)):
+                
+
                 if lista_respuestas[i]["rectangulo"].collidepoint(evento.pos):
                     respuesta_seleccionada = (i + 1)
                     print("respuesta_seleccionada:", respuesta_seleccionada)
@@ -69,45 +70,61 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                         print("RESPUESTA CORRECTA")
                         lista_respuestas[i]["superficie"].fill(COLOR_VERDE_OSCURO)
                         datos_juego["puntuacion"] += PUNTUACION_ACIERTO
+                        datos_juego["aciertos"] += 1
+                        vida_extra = True
                     else:
                         ERROR_SONIDO.play()
                         lista_respuestas[i]["superficie"].fill(COLOR_ROJO)
                         if datos_juego["puntuacion"] > 0:
                             datos_juego["puntuacion"] -= PUNTUACION_ERROR
                         datos_juego["cantidad_vidas"] -= 1
-                        print("RESPUESTA INCORRECTA")
-                        retorno = "terminado"
+                        vida_extra = False
+
+                    if datos_juego["aciertos"] == 5 and vida_extra == True:
+                        datos_juego["cantidad_vidas"] += 1
+                    elif datos_juego["cantidad_vidas"] == 0:
+                        retorno = "terminado"    
+                    
                     indice += 1
                     
+
                     if indice == len(lista_preguntas):
                         indice = 0
                         random.shuffle(lista_preguntas)
                         
+                        
                     bandera_respuesta = True
+                
+                    
 
     
     pantalla.fill(COLOR_BLANCO)
-    #pantalla.blit(fondo,(0,0))
-    
-    mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual["pregunta"]}",(20,20),FUENTE_27,COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[0]["superficie"],f"{pregunta_actual["respuesta_1"]}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[1]["superficie"],f"{pregunta_actual["respuesta_2"]}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[2]["superficie"],f"{pregunta_actual["respuesta_3"]}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[3]["superficie"],f"{pregunta_actual["respuesta_4"]}",(20,20),FUENTE_22,COLOR_BLANCO)
-    
+   
+    #MOSTRAR TEXTO DENTRO DE LOS CUADROS Y BOTONES
+    mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual['pregunta']}",(20,20),FUENTE_27,COLOR_BLANCO)
+    mostrar_texto(lista_respuestas[0]["superficie"],f"{pregunta_actual['respuesta_1']}",(20,20),FUENTE_22,COLOR_BLANCO)
+    mostrar_texto(lista_respuestas[1]["superficie"],f"{pregunta_actual['respuesta_2']}",(20,20),FUENTE_22,COLOR_BLANCO)
+    mostrar_texto(lista_respuestas[2]["superficie"],f"{pregunta_actual['respuesta_3']}",(20,20),FUENTE_22,COLOR_BLANCO)
+    mostrar_texto(lista_respuestas[3]["superficie"],f"{pregunta_actual['respuesta_4']}",(20,20),FUENTE_22,COLOR_BLANCO)
+
+    #MOSTRAR CUADROS EN PANTALLA    
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(80,80))
     lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(75,245))#r1
     lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(75,345))#r2
     lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(75,445))#r3
     lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(75,545))#r4
+    boton_imagen = boton_volumen["superficie"] if musica_activa else boton_volumen_silenciado["superficie"]
+    pantalla.blit(boton_imagen, boton_rect.topleft)
     
-
+    #CREAR RECTANGULOS INTERACTIVOS
     pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
     pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[0]["rectangulo"],2)
     pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[1]["rectangulo"],2)
     pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[2]["rectangulo"],2)
     
+    #MUESTRO INFORMACIÓN DEL JUEGADOR
     mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_NEGRO)
     mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(10,40),FUENTE_25,COLOR_NEGRO)
+    
     
     return retorno
