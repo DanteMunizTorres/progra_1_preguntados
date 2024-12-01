@@ -28,13 +28,13 @@ def crear_diccionario_pregunta(lista_valores:list) -> dict:
 
 def parsear_archivo_preguntas() -> list:
     '''Lee el archivo de preguntas y devuelve una lista de diccionarios'''
-    ruta_relativa = "../parcial_2/data/Preguntas_Examen.csv"
+    ruta_relativa = "data\Preguntas_Examen.csv"
     ruta_absoluta = os.path.abspath(ruta_relativa)
     print(f"ruta_absoluta: {ruta_absoluta}")
     
     resultado = []
-    if os.path.exists(ruta_absoluta):
-        with open(ruta_absoluta,"r", encoding="utf-8") as archivo:
+    if os.path.exists(ruta_relativa):
+        with open(ruta_relativa,"r", encoding="utf-8") as archivo:
             #Leer la primer linea del archivo y no hacer nada.
             archivo.readline()
             for linea in archivo:

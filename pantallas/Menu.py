@@ -4,14 +4,7 @@ from Funciones import *
 
 pygame.init()
 
-lista_botones = []
-
-for i in range(4):
-    boton = {}
-    boton["superficie"] = pygame.Surface(TAMAÑO_BOTON)
-    boton["rectangulo"] = boton["superficie"].get_rect()
-    boton["superficie"].fill(COLOR_AZUL)
-    lista_botones.append(boton)
+lista_botones = crear_cuadros(4,TAMAÑO_BOTON,COLOR_NEGRO)
     
 def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) -> str:
     retorno = "menu"
