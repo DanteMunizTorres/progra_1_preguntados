@@ -28,13 +28,60 @@ def crear_diccionario_pregunta(lista_valores:list) -> dict:
 
 def parsear_archivo_preguntas() -> list:
     '''Lee el archivo de preguntas y devuelve una lista de diccionarios'''
-    ruta_relativa = "../parcial_2/data/Preguntas_Examen.csv"
+    ruta_relativa = "data\Preguntas_Examen.csv"
     ruta_absoluta = os.path.abspath(ruta_relativa)
     print(f"ruta_absoluta: {ruta_absoluta}")
     
     resultado = []
-    if os.path.exists(ruta_absoluta):
-        with open(ruta_absoluta,"r", encoding="utf-8") as archivo:
+    if os.path.exists(ruta_relativa):
+        with open(ruta_relativa,"r", encoding="utf-8") as archivo:
+            #Leer la primer linea del archivo y no hacer nada.
+            archivo.readline()
+            for linea in archivo:
+                print('Printeo linea: ',linea)
+                linea = linea.replace("\n","") 
+                lista_valores = linea.split(";")
+                diccionario = crear_diccionario_pregunta(lista_valores)
+                resultado.append(diccionario)
+        print(f"Fin del with: {archivo.closed}")
+    else:
+        print("EL ARCHIVO NO EXISTE, NO SE PUEDE ABRIR")
+    return resultado
+
+
+def crear_diccionario_estadistica(lista_valores:list) -> dict:
+    '''
+    Crea un diccionario partiendo de una lista de valores. El formato es:
+      {
+        jugador:str,
+        puntaje:str
+      }
+    '''
+    diccionario = {}
+    last_index = (len(lista_valores) -1)
+    for index, valor in enumerate(lista_valores):
+        if index == 0:
+            diccionario["pregunta"] = lista_valores[0]
+        elif index == last_index:
+            print('respuesta correcta:', lista_valores[last_index])
+            valor_sin_espacios = lista_valores[last_index].strip()
+            print('valor_sin_espacios:', valor_sin_espacios)
+            print('valor_sin_espacios len:', len(valor_sin_espacios))
+            diccionario["respuesta_correcta"] = int(valor_sin_espacios)
+        else:
+            diccionario[f"respuesta_{index}"] = lista_valores[index]
+    
+    return diccionario
+
+def parsear_archivo_estadisticas() -> list:
+    '''Lee el archivo de preguntas y devuelve una lista de diccionarios'''
+    ruta_relativa = "data\Preguntas_Examen.csv"
+    ruta_absoluta = os.path.abspath(ruta_relativa)
+    print(f"ruta_absoluta: {ruta_absoluta}")
+    
+    resultado = []
+    if os.path.exists(ruta_relativa):
+        with open(ruta_relativa,"r", encoding="utf-8") as archivo:
             #Leer la primer linea del archivo y no hacer nada.
             archivo.readline()
             for linea in archivo:
