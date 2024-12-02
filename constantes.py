@@ -20,6 +20,7 @@ TAMAÑO_BOTON = (250,60)
 CUADRO_TEXTO = (250,50)
 TAMAÑO_BOTON_VOLUMEN = (60,60)
 TAMAÑO_BOTON_VOLVER = (100,40)
+TAMAÑO_BOTON_TIEMPO = (150,40)
 
 
 FUENTE_22 = pygame.font.SysFont("Arial",22)
@@ -33,11 +34,14 @@ FUENTE_50 = pygame.font.SysFont("Arial",50)
 CLICK_SONIDO = pygame.mixer.Sound("assets/sounds/click.mp3")
 ACIERTO_SONIDO = pygame.mixer.Sound("assets/sounds/click.mp3")
 ERROR_SONIDO = pygame.mixer.Sound("assets/sounds/error.mp3")
+MUSICA_ACTIVA = True
 
 
 CANTIDAD_VIDAS = 3
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
+CANTIDAD_ACIERTOS = 0
+
 
 BOTON_JUGAR = 0
 BOTON_AJUSTES = 1
