@@ -14,9 +14,10 @@ pygame.display.set_caption("JUEGO 314")
 pantalla = pygame.display.set_mode(VENTANA)
 corriendo = True
 reloj = pygame.time.Clock()
-datos_juego = {"puntuacion":0,"aciertos":CANTIDAD_ACIERTOS,"cantidad_vidas":CANTIDAD_VIDAS,"nombre":"","volumen_musica":100}
+datos_juego = {"puntuacion":0,"aciertos":CANTIDAD_ACIERTOS,"cantidad_vidas":CANTIDAD_VIDAS,"nombre":"","volumen_musica":100, "game_over": False}
 ventana_actual = "menu"
 bandera_juego = False
+terminado_music_on = False
 
 #BUCLE PRINCIPAL --> define la ventana principal que nos permite acceder a las opciones principales
 while corriendo:
@@ -40,11 +41,18 @@ while corriendo:
     elif ventana_actual == "puntuaciones":
         ventana_actual = mostrar_rankings(pantalla,cola_eventos)
     elif ventana_actual == "terminado":
+        if terminado_music_on == False:
+            terminado_music_on = True
+            musica = "assets\sounds\game_over.mp3"
+            if datos_juego['game_over'] == False:
+                musica = "assets\sounds\game_won.mp3"
+            pygame.mixer.music.load(musica)
+            pygame.mixer.music.set_volume(datos_juego["volumen_musica"] / 120)
+            pygame.mixer.music.play(-1)
         ventana_actual = mostrar_fin_juego(pantalla,cola_eventos,datos_juego)
     elif ventana_actual == "salir":
         corriendo = False
     
     pygame.display.flip()
 pygame.quit()
-    
     
