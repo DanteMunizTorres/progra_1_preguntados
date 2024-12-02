@@ -10,7 +10,7 @@ from utils.files_management import parsear_archivo_preguntas
 pygame.init()
 
 #CREO CUADROS DE PREGUNTAS, RESPUESTAS Y BOTONES INTERACTIVOS
-
+boton_tiempo = crear_objeto(TAMAÑO_BOTON_TIEMPO,COLOR_NEGRO)
 boton_volumen_silenciado = crear_objeto_imagen("assets\images\mute.png",(25,25))
 boton_volumen = crear_objeto_imagen("assets\images\sound.png",(25,25))
 boton_rect = boton_rect = pygame.Rect(470, 770, 25, 25)
@@ -19,6 +19,8 @@ lista_respuestas = crear_cuadros(4,TAMAÑO_RESPUESTA,COLOR_NEGRO)
 lista_preguntas = parsear_archivo_preguntas()
 musica_activa = True
 vida_extra = False
+cantidad_bucles = 0
+
 
     
 indice = 0 #Son inmutables
@@ -26,12 +28,26 @@ bandera_respuesta = False #Son inmutables
 random.shuffle(lista_preguntas)
 
 def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict) -> str:
+    tiempo_actual = pygame.time.get_ticks() // 1000
+    
+    #VARIABLES GLOBALES
     global indice
     global bandera_respuesta
     global musica_activa
     global vida_extra
+    global cantidad_bucles
+
+    pregunta_actual = lista_preguntas[indice]
+    
+    #AGREGO LOS DATOS DE LA CUENTA REGRESIVA
+    if 'inicio_tiempo' not in datos_juego:
+        datos_juego['inicio_tiempo'] = tiempo_actual
+    
+    tiempo_restante = 10 - (tiempo_actual - datos_juego['inicio_tiempo'])
+    
 
     retorno = "juego"
+
     if bandera_respuesta:
         pygame.time.delay(250)
         
@@ -41,11 +57,23 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
             lista_respuestas[i]["superficie"].fill(COLOR_AZUL)
         bandera_respuesta = False
     
-    pregunta_actual = lista_preguntas[indice]
     
+    if tiempo_restante <= 0:
+        datos_juego['inicio_tiempo'] = tiempo_actual
+        indice += 1
+        if indice >= len(lista_preguntas):
+            indice = 0
+            random.shuffle(lista_preguntas)
+        datos_juego["cantidad_vidas"] -= 1
+
+        if datos_juego["cantidad_vidas"] <= 0:
+            retorno = "terminado"
+
+
     for evento in cola_eventos:
         if evento.type == pygame.QUIT:
             retorno = "salir"
+
         
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             
@@ -57,8 +85,10 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                         pygame.mixer.music.unpause()
                         
                     musica_activa = not musica_activa
-            for i in range(len(lista_respuestas)):
-                
+
+            
+
+            for i in range(len(lista_respuestas)):   
 
                 if lista_respuestas[i]["rectangulo"].collidepoint(evento.pos):
                     respuesta_seleccionada = (i + 1)
@@ -86,6 +116,8 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                         retorno = "terminado"    
                     
                     indice += 1
+
+                    
                     
 
                     if indice == len(lista_preguntas):
@@ -99,13 +131,23 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
     
     pantalla.fill(COLOR_BLANCO)
+    
    
-    #MOSTRAR TEXTO DENTRO DE LOS CUADROS Y BOTONES
+    # Limpiar y mostrar respuestas individualmente
+    cuadro_pregunta["superficie"].fill(COLOR_NEGRO)
     mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual['pregunta']}",(20,20),FUENTE_27,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[0]["superficie"],f"{pregunta_actual['respuesta_1']}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[1]["superficie"],f"{pregunta_actual['respuesta_2']}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[2]["superficie"],f"{pregunta_actual['respuesta_3']}",(20,20),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(lista_respuestas[3]["superficie"],f"{pregunta_actual['respuesta_4']}",(20,20),FUENTE_22,COLOR_BLANCO)
+
+    lista_respuestas[0]["superficie"].fill(COLOR_NEGRO) 
+    mostrar_texto(lista_respuestas[0]["superficie"], pregunta_actual['respuesta_1'], (20, 20), FUENTE_22, COLOR_BLANCO)
+
+    lista_respuestas[1]["superficie"].fill(COLOR_NEGRO)
+    mostrar_texto(lista_respuestas[1]["superficie"], pregunta_actual['respuesta_2'], (20, 20), FUENTE_22, COLOR_BLANCO)
+
+    lista_respuestas[2]["superficie"].fill(COLOR_NEGRO)
+    mostrar_texto(lista_respuestas[2]["superficie"], pregunta_actual['respuesta_3'], (20, 20), FUENTE_22, COLOR_BLANCO)
+
+    lista_respuestas[3]["superficie"].fill(COLOR_NEGRO)
+    mostrar_texto(lista_respuestas[3]["superficie"], pregunta_actual['respuesta_4'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
     #MOSTRAR CUADROS EN PANTALLA    
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(80,80))
@@ -115,6 +157,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(75,545))#r4
     boton_imagen = boton_volumen["superficie"] if musica_activa else boton_volumen_silenciado["superficie"]
     pantalla.blit(boton_imagen, boton_rect.topleft)
+    boton_tiempo["rectangulo"] = pantalla.blit(boton_tiempo["superficie"],(10,770))
     
     #CREAR RECTANGULOS INTERACTIVOS
     pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
@@ -125,6 +168,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     #MUESTRO INFORMACIÓN DEL JUEGADOR
     mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_NEGRO)
     mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(10,40),FUENTE_25,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"TIEMPO: {tiempo_restante}",(10,770),FUENTE_25,COLOR_BLANCO)
     
     
     return retorno
