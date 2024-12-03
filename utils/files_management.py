@@ -30,7 +30,7 @@ def parsear_archivo_preguntas() -> list:
     '''Lee el archivo de preguntas y devuelve una lista de diccionarios'''
     ruta_relativa = "data\Preguntas_Examen.csv"
     ruta_absoluta = os.path.abspath(ruta_relativa)
-    print(f"ruta_absoluta: {ruta_absoluta}")
+    print(f"ruta_absoluta: {ruta_relativa}")
     
     resultado = []
     if os.path.exists(ruta_relativa):

@@ -4,11 +4,25 @@ from Funciones import *
 
 pygame.init()
 
-lista_botones = crear_cuadros(4,TAMAÑO_BOTON,COLOR_NEGRO)
+fondo = pygame.image.load("assets\images\_fondo_ventanas.jpg")
+fondo = pygame.transform.scale(fondo,VENTANA)
+
+
+lista_botones = []
+
+for i in range(4):
+    boton = {}
+    boton["superficie"] = pygame.Surface(TAMAÑO_BOTON)
+    boton["superficie"] = pygame.image.load("assets\images\_posible_fondo_botones3.jpg")
+    boton["superficie"] = pygame.transform.scale(boton["superficie"],TAMAÑO_BOTON)
+    boton["rectangulo"] = boton["superficie"].get_rect()
+
+    lista_botones.append(boton)
     
-def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) -> str:
+def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],fondo) -> str:
     retorno = "menu"
     pygame.display.set_caption("MENU")
+
 
     
     for evento in cola_eventos:
@@ -28,16 +42,17 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
                 retorno = "salir"
                 CLICK_SONIDO.play()
    
-                
-    pantalla.fill(COLOR_BLANCO)
+    pantalla.blit(fondo,(0,0))
+       
+    # pantalla.fill(COLOR_BLANCO)
     lista_botones[BOTON_JUGAR]["rectangulo"] = pantalla.blit(lista_botones[BOTON_JUGAR]["superficie"],(125,115))
     lista_botones[BOTON_AJUSTES]["rectangulo"] = pantalla.blit(lista_botones[BOTON_AJUSTES]["superficie"],(125,195))
     lista_botones[BOTON_RANKINGS]["rectangulo"] = pantalla.blit(lista_botones[BOTON_RANKINGS]["superficie"],(125,275))
     lista_botones[BOTON_SALIR]["rectangulo"] = pantalla.blit(lista_botones[BOTON_SALIR]["superficie"],(125,355))
         
-    mostrar_texto(lista_botones[BOTON_JUGAR]["superficie"],"JUGAR",(75,20),FUENTE_30,COLOR_BLANCO)
-    mostrar_texto(lista_botones[BOTON_AJUSTES]["superficie"],"AJUSTES",(60,20),FUENTE_30,COLOR_BLANCO)
-    mostrar_texto(lista_botones[BOTON_RANKINGS]["superficie"],"RANKINGS",(50,20),FUENTE_30,COLOR_BLANCO)
-    mostrar_texto(lista_botones[BOTON_SALIR]["superficie"],"SALIR",(75,20),FUENTE_30,COLOR_BLANCO)
+    mostrar_texto(lista_botones[BOTON_JUGAR]["superficie"],"JUGAR",(75,10),FUENTE_30,COLOR_NEGRO)
+    mostrar_texto(lista_botones[BOTON_AJUSTES]["superficie"],"AJUSTES",(60,10),FUENTE_30,COLOR_NEGRO)
+    mostrar_texto(lista_botones[BOTON_RANKINGS]["superficie"],"RANKINGS",(50,10),FUENTE_30,COLOR_NEGRO)
+    mostrar_texto(lista_botones[BOTON_SALIR]["superficie"],"SALIR",(75,10),FUENTE_30,COLOR_NEGRO)
     
     return retorno
