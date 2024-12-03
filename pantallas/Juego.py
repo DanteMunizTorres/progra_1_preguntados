@@ -17,6 +17,7 @@ boton_rect = boton_rect = pygame.Rect(470, 770, 25, 25)
 cuadro_pregunta = crear_objeto(TAMAÑO_PREGUNTA,COLOR_NEGRO)
 lista_respuestas = crear_cuadros(4,TAMAÑO_RESPUESTA,COLOR_NEGRO)
 lista_preguntas = parsear_archivo_preguntas()
+#VARS
 musica_activa = True
 vida_extra = False
 cantidad_bucles = 0
@@ -133,38 +134,35 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     pantalla.fill(COLOR_BLANCO)
     
    
-    # Limpiar y mostrar respuestas individualmente
+    # Limpiar y mostrar pregunta y respuestas individualmente
     cuadro_pregunta["superficie"].fill(COLOR_NEGRO)
     mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual['pregunta']}",(20,20),FUENTE_27,COLOR_BLANCO)
 
-    lista_respuestas[0]["superficie"].fill(COLOR_NEGRO) 
-    mostrar_texto(lista_respuestas[0]["superficie"], pregunta_actual['respuesta_1'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
-    lista_respuestas[1]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[1]["superficie"], pregunta_actual['respuesta_2'], (20, 20), FUENTE_22, COLOR_BLANCO)
+    for i, respuesta in enumerate(lista_respuestas):
+        respuesta["superficie"].fill(COLOR_NEGRO)
+        mostrar_texto(respuesta["superficie"], pregunta_actual[f'respuesta_{i+1}'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
-    lista_respuestas[2]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[2]["superficie"], pregunta_actual['respuesta_3'], (20, 20), FUENTE_22, COLOR_BLANCO)
-
-    lista_respuestas[3]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[3]["superficie"], pregunta_actual['respuesta_4'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
     #MOSTRAR CUADROS EN PANTALLA    
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(80,80))
-    lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(75,245))#r1
-    lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(75,345))#r2
-    lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(75,445))#r3
-    lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(75,545))#r4
+
+    for i, respuesta in enumerate(lista_respuestas):
+        y_pos = 245 + i * 100  # Calcula la posición en Y dinámicamente
+        lista_respuestas[i]["rectangulo"] = pantalla.blit(lista_respuestas[i]["superficie"], (75, y_pos))
+
+    
     boton_imagen = boton_volumen["superficie"] if musica_activa else boton_volumen_silenciado["superficie"]
     pantalla.blit(boton_imagen, boton_rect.topleft)
+    
     boton_tiempo["rectangulo"] = pantalla.blit(boton_tiempo["superficie"],(10,770))
     
     #CREAR RECTANGULOS INTERACTIVOS
     pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[0]["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[1]["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[2]["rectangulo"],2)
-    
+   
+
+    for i in range(len(lista_respuestas)):
+        pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[i]["rectangulo"],2)
     #MUESTRO INFORMACIÓN DEL JUEGADOR
     mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_NEGRO)
     mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(10,40),FUENTE_25,COLOR_NEGRO)

@@ -21,6 +21,7 @@ bandera_juego = False
 #BUCLE PRINCIPAL --> define la ventana principal que nos permite acceder a las opciones principales
 while corriendo:
     
+    
     cola_eventos = pygame.event.get()
     reloj.tick(FPS)
 

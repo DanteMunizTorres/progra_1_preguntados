@@ -44,3 +44,5 @@ def crear_objeto_imagen(imagen:str,tamaño:tuple)->dict:
     objeto["superficie"] = pygame.transform.scale(objeto["superficie"],tamaño)
     objeto["rectangulo"] = objeto["superficie"].get_rect()
     return objeto
+
+
