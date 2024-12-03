@@ -10,38 +10,40 @@ COLOR_VIOLETA = (134,23,219)
 COLOR_AMARILLO = (239,255,0)
 COLOR_VERDE_OSCURO = "#0B9827"
 ANCHO = 500
-ALTO = 800
+ALTO = 600
 VENTANA = (ANCHO,ALTO)
 FPS = 60
 
-TAMAÑO_PREGUNTA = (350,150)
-TAMAÑO_RESPUESTA = (350,90)
+TAMAÑO_PREGUNTA = (400,110)
+TAMAÑO_RESPUESTA = (400,85)
 TAMAÑO_BOTON = (250,60)
-CUADRO_TEXTO = (250,50)
+CUADRO_TEXTO = (300,50)
 TAMAÑO_BOTON_VOLUMEN = (60,60)
 TAMAÑO_BOTON_VOLVER = (100,40)
-TAMAÑO_BOTON_TIEMPO = (150,40)
 
+#FUENTE_17 = pygame.font.SysFont("consolas",17)
+FUENTE_17 = pygame.font.SysFont("Comic Sans",17)
+FUENTE_20 = pygame.font.SysFont("Comic Sans",20)
+FUENTE_22 = pygame.font.SysFont("Comic Sans",22)
+FUENTE_22_NEGRITA = pygame.font.SysFont("segoeuiblack",22)
+FUENTE_25 = pygame.font.SysFont("Comic Sans",25)
+FUENTE_27 = pygame.font.SysFont("Comic Sans",27)
+FUENTE_30 = pygame.font.SysFont("segoeuiblack",30)
+FUENTE_32 = pygame.font.SysFont("Comic Sans",32)
+FUENTE_40 = pygame.font.SysFont("Comic Sans",40)
+FUENTE_40_NEGRITA = pygame.font.SysFont("segoeuiblack",40)
+FUENTE_50 = pygame.font.SysFont("Comic Sans",50)
+FUENTE_50_NEGRITA = pygame.font.SysFont("segoeuiblack",50)
 
-FUENTE_22 = pygame.font.SysFont("Arial",22)
-FUENTE_25 = pygame.font.SysFont("Arial",25)
-FUENTE_27 = pygame.font.SysFont("Arial",27)
-FUENTE_30 = pygame.font.SysFont("Arial",30)
-FUENTE_32 = pygame.font.SysFont("Arial",32)
-FUENTE_40 = pygame.font.SysFont("Arial",40)
-FUENTE_50 = pygame.font.SysFont("Arial",50)
+CLICK_SONIDO = pygame.mixer.Sound("assets\sounds\click.mp3")
+ACIERTO_SONIDO = pygame.mixer.Sound("assets\sounds\correcto.mp3")
+ERROR_SONIDO = pygame.mixer.Sound("assets\sounds\error.mp3")
 
-CLICK_SONIDO = pygame.mixer.Sound("assets/sounds/click.mp3")
-ACIERTO_SONIDO = pygame.mixer.Sound("assets/sounds/click.mp3")
-ERROR_SONIDO = pygame.mixer.Sound("assets/sounds/error.mp3")
-MUSICA_ACTIVA = True
 
 
 CANTIDAD_VIDAS = 3
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
-CANTIDAD_ACIERTOS = 0
-
 
 BOTON_JUGAR = 0
 BOTON_AJUSTES = 1

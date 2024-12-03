@@ -18,29 +18,3 @@ def mostrar_texto(surface, text, pos, font, color=pygame.Color('black')):
             x += word_width + space
         x = pos[0]  # Reset the x.
         y += word_height  # Start on new row.
-
-
-def crear_objeto (tamaño:tuple,color:tuple)->dict:
-    
-    objeto = {}
-    objeto["superficie"] = pygame.Surface(tamaño)
-    objeto["rectangulo"] = objeto["superficie"].get_rect()
-    objeto["superficie"].fill(color)
-    return objeto
-
-def crear_cuadros(cantidad_cuadros:int,tamaño:tuple,color:tuple)->list:
-    lista = []
-    for i in range (cantidad_cuadros):
-        objeto = {}
-        objeto["superficie"] = pygame.Surface(tamaño)
-        objeto["rectangulo"] = objeto["superficie"].get_rect()
-        objeto["superficie"].fill(color)
-        lista.append(objeto)
-    return lista
-
-def crear_objeto_imagen(imagen:str,tamaño:tuple)->dict:
-    objeto = {}
-    objeto["superficie"] = pygame.image.load(imagen)
-    objeto["superficie"] = pygame.transform.scale(objeto["superficie"],tamaño)
-    objeto["rectangulo"] = objeto["superficie"].get_rect()
-    return objeto
