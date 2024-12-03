@@ -44,3 +44,12 @@ def crear_objeto_imagen(imagen:str,tamaño:tuple)->dict:
     objeto["superficie"] = pygame.transform.scale(objeto["superficie"],tamaño)
     objeto["rectangulo"] = objeto["superficie"].get_rect()
     return objeto
+
+def crear_comodines()->list:
+    lista_comodines = crear_cuadros(4,TAMAÑO_COMODIN,COLOR_VIOLETA)
+    comodines_ids = [COMODIN_BOMBA, COMODIN_X2, COMODIN_CANCHE_EXTRA, COMODIN_PASAR,]
+    for index, comodin in enumerate(lista_comodines):
+        comodin["utilizado"] = False
+        comodin['id'] = comodines_ids[index]
+    return lista_comodines
+    

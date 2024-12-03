@@ -16,20 +16,11 @@ boton_volumen = crear_objeto_imagen("assets\images\sound.png",(25,25))
 boton_rect = boton_rect = pygame.Rect(470, 770, 25, 25)
 cuadro_pregunta = crear_objeto(TAMAÑO_PREGUNTA,COLOR_NEGRO)
 lista_respuestas = crear_cuadros(4,TAMAÑO_RESPUESTA,COLOR_NEGRO)
-lista_comodines = crear_cuadros(4,TAMAÑO_COMODIN,COLOR_VIOLETA)
 lista_preguntas = parsear_archivo_preguntas()
 musica_activa = True
 vida_extra = False
 cantidad_bucles = 0
-
-COMODIN_BOMBA = 'Bomba'
-COMODIN_X2 = 'X2'
-COMODIN_CANCHE_EXTRA = 'Chance +'
-COMODIN_PASAR = 'Pasar'
-comodines_ids = [COMODIN_BOMBA, COMODIN_X2, COMODIN_CANCHE_EXTRA, COMODIN_PASAR,]
-for index, comodin in enumerate(lista_comodines):
-    comodin["utilizado"] = False
-    comodin['id'] = comodines_ids[index]
+lista_comodines = crear_comodines()
 
     
 indice = 0 #Son inmutables
@@ -149,15 +140,6 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                           print(f"Apretaste el comodin: {comodin['id']}")
                         elif comodin['id'] == COMODIN_PASAR:
                           print(f"Apretaste el comodin: {comodin['id']}")
-                            
-                        
-                        # lista_comodines[i]["superficie"].fill(COLOR_ROJO)
-                        # if datos_juego["puntuacion"] > 0:
-                        #     datos_juego["puntuacion"] -= PUNTUACION_ERROR
-                        # datos_juego["cantidad_vidas"] -= 1
-                        # vida_extra = False
-
-                
                     
 
     
