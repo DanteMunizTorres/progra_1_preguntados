@@ -1,5 +1,6 @@
 import os
-
+import json
+from datetime import datetime
 
 def crear_diccionario_pregunta(lista_valores:list) -> dict:
     '''
@@ -49,126 +50,54 @@ def parsear_archivo_preguntas() -> list:
     return resultado
 
 
-# print('Esta es la lista de diccionarios: \n\n',leer_archivo_preguntas())
+def leer_json(nombre_archivo:str) -> list:
+    lista = []
+    if os.path.exists(nombre_archivo):
+        with open(nombre_archivo,"r") as archivo:
+            lista = json.load(archivo)
+    return lista
 
+def generar_json(nombre_archivo:str,lista:list) -> bool: 
+    if type(lista) == list and len(lista) > 0:
+        with open(nombre_archivo,"w") as archivo:
+            json.dump(lista,archivo, indent=4)
+        resultadoExitoso = True
+    else:
+        resultadoExitoso = False
+    return resultadoExitoso     
 
+def obtener_estadisticas() -> list:
+    '''Lee el archivo de partidas previas'''
+    ruta_relativa = "data\partidas.json"  
+    resultado = leer_json(ruta_relativa)
+    return resultado
 
-# #CSV -> Me permite guardar un conjunto de información separado por un separador especifico normalmente (,) y puedo por ejemplo usarlo en una tabla excel
+def guardar_estadisticas(nombre, puntuacion) -> list:
+    '''Guarda partida con fecha en el arhcivo de partidas.json'''
+    resultado = obtener_estadisticas()
+    fecha_actual = datetime.now()
+    fecha_formateada = fecha_actual.strftime("%d/%m/%Y %H:%M:%S")
 
-# #Alumno -> nombre, apellido, genero, nota_final
+    datos_jugador = {
+        "nombre": nombre,
+        "puntuacion": puntuacion,
+        "fecha": fecha_formateada,
+    }
 
-# #Leer el csv y generar una lista de diccionarios con la data (parse)
-
-# def crear_diccionario_alumno(lista_valores:list) -> dict:
-#     diccionario = {}
-#     diccionario["nombre"] = lista_valores[0]
-#     diccionario["apellido"] = lista_valores[1]
-#     diccionario["genero"] = lista_valores[2]
-#     diccionario["nota_final"] = int(lista_valores[3])
+    ya_esta_en_la_lista = -1
+    for index, persona in enumerate(resultado):
+        if persona and persona['nombre'] == nombre:
+            ya_esta_en_la_lista = index
+            break
     
-#     return diccionario
+    if ya_esta_en_la_lista > -1:
+        resultado[ya_esta_en_la_lista] = datos_jugador
+    else:
+        resultado.append(datos_jugador)
 
-# def leer_csv_alumnos(nombre_archivo:str,lista_alumnos:list) -> bool:
-#     if os.path.exists(nombre_archivo):
-#         with open(nombre_archivo,"r") as archivo:
-#             #Leer la primer linea del archivo y no hacer nada.
-#             archivo.readline()
-#             for linea in archivo:
-#                 linea = linea.replace("\n","") 
-#                 lista_valores = linea.split(",")
-#                 diccionario = crear_diccionario_alumno(lista_valores)
-#                 lista_alumnos.append(diccionario)
-#             retorno = True
-#     else:
-#         retorno = False
-        
-#     return retorno
+    resultado.sort(key=lambda x: x["puntuacion"], reverse=True) # aca ordeno con una funcion lambda, que es como un arrow function de JS
+    resultado = resultado[:10] # aca corto los primeros 10
+    ruta_relativa = "data\partidas.json"  
+    generar_json(ruta_relativa, resultado)
 
-# # def crear_cabecera(diccionario:dict,separador:str) -> str:
-# #     lista_claves = list()
-
-# def crear_cabecera(diccionario:dict,separador:str):
-#     claves = diccionario.keys()
-#     cabecera = separador.join(claves)
-    
-#     return cabecera
-
-# def crear_dato_csv(diccionario:dict,separador:str) -> str:
-#     lista_valores = list(diccionario.values())
-#     for i in range(len(lista_valores)):
-#         lista_valores[i] = str(lista_valores[i])    
-    
-#     separador = ","
-#     dato = separador.join(lista_valores)
-#     return dato
-
-# def guardar_csv(nombre_archivo:str,lista:list) -> bool:
-#     if type(lista) == list and len(lista) > 0:
-#         #Obtengo la cabecera
-#         cabecera = crear_cabecera(lista[0],",")
-        
-#         with open(nombre_archivo,"w") as archivo:
-#             #Guardamos la cabecera
-#             archivo.write(cabecera + "\n")
-            
-#             #Guardamos todos los datos de la lista
-#             # for diccionario in lista:
-#             #     dato = crear_dato_csv(diccionario,",")
-#             #     archivo.write(dato + "\n")
-            
-#             for i in range(len(lista)):
-#                 dato = crear_dato_csv(lista[i],",")
-#                 #Si es el ultimo elemeno
-#                 if i != len(lista) - 1:
-#                     archivo.write(dato + "\n")
-#                 else:
-#                     archivo.write(dato)
-#         retorno = True
-        
-#     else:
-#         retorno = False
-
-# def mostrar_diccionario(diccionario) -> None:
-#     for clave,valor in diccionario.items():
-#         print(f"{clave.title().replace("_"," ")} : {valor}")
-        
-# def mostrar_lista_diccionarios(lista:list) -> bool:
-#     retorno = False
-#     for elemento in lista:
-#         retorno = True
-#         mostrar_diccionario(elemento)
-#         print("")
-        
-#     return retorno
-
-# #1. Leer csv -> Generamos la lista de diccionarios de los alumnos
-# # lista_alumnos = []
-# # leer_csv_alumnos("alumnos.csv",lista_alumnos)
-# # mostrar_lista_diccionarios(lista_alumnos)
-
-# #2. Guardar csv -> Creamos el csv con los datos de la lista de diccionarios de alumnos
-
-# lista_alumnos = [{"nombre":"Mariano","apellido":"Fernandez","genero":"masculino","nota_final":10},{"nombre":"Maria","apellido":"Perez","genero":"femenino","nota_final":8}]
-# guardar_csv("alumnos_nuevos.csv",lista_alumnos)
-
-
-
-
-
-
-# separador = ','
-# lista = ['Carlos', 'Perez', '9']
-
-# fila = separador.join(lista)
-
-# print('FILA:', fila)
-
-
-# acumulador = ''
-
-# for item in lista:
-#     acumulador += item + separador
-
-
-# print('acum:', acumulador)
 

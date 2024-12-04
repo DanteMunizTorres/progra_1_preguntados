@@ -209,6 +209,14 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                         print("YA USASTE ESTE COMODIN AMIGO")
                         lista_comodines[i]["superficie"].fill(COLOR_VERDE_OSCURO)
                     else:
+                        #  Bomba: Elimina dos respuestas y solo deja la correcta y una
+                        # incorrecta
+                        # ■ X2: Permite duplicar la cantidad de puntos que se obtienen
+                        # ■ Doble chance: En caso de errarle a la pregunta, tiene una segunda
+                        # chance de responder con las 3 opciones que quedan.
+                        # ■ Pasar:Me permite pasar a la siguiente pregunta, sin sumar ni restar
+                        # puntos ni vidas.
+
                         ACIERTO_SONIDO.play()
                         comodin["utilizado"] = True
                         if comodin['id'] == COMODIN_BOMBA:
