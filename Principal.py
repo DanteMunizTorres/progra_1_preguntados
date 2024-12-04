@@ -17,7 +17,8 @@ pantalla = pygame.display.set_mode(VENTANA)
 corriendo = True
 reloj = pygame.time.Clock()
 datos_juego = {"puntuacion":0,"aciertos":CANTIDAD_ACIERTOS,"cantidad_vidas":CANTIDAD_VIDAS,"nombre":"","volumen_musica":100}
-ventana_actual = "menu"
+# ventana_actual = "menu"
+ventana_actual = "terminado"
 bandera_juego = False
 
 
