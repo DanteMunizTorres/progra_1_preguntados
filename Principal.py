@@ -16,7 +16,7 @@ pantalla = pygame.display.set_mode(VENTANA)
 
 corriendo = True
 reloj = pygame.time.Clock()
-datos_juego = {"puntuacion":0,"cantidad_vidas":CANTIDAD_VIDAS,"nombre":"","volumen_musica":100}
+datos_juego = {"puntuacion":0,"aciertos":CANTIDAD_ACIERTOS,"cantidad_vidas":CANTIDAD_VIDAS,"nombre":"","volumen_musica":100}
 ventana_actual = "menu"
 bandera_juego = False
 
@@ -24,9 +24,6 @@ bandera_juego = False
 
 
 while corriendo:
-    #Gestion de Eventos -> No lo programamos aca
-    #Actualizacion de estados -> No lo programamos aca
-    #Imprimir en pantalla esa informacion -> No lo programamos aca
     cola_eventos = pygame.event.get()
     reloj.tick(FPS)
 

@@ -58,10 +58,24 @@ bandera_respuesta = False #Son inmutables
 random.shuffle(lista_preguntas)
 
 def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict) -> str:
+    tiempo_actual = pygame.time.get_ticks() // 1000
+
     global indice
     global bandera_respuesta
+    global musica_activa
+    global vida_extra
+    global cantidad_bucles
+    
+    pregunta_actual = lista_preguntas[indice]
+
+    #AGREGO LOS DATOS DE LA CUENTA REGRESIVA
+    if 'inicio_tiempo' not in datos_juego:
+        datos_juego['inicio_tiempo'] = tiempo_actual
+    
+    tiempo_restante = 10 - (tiempo_actual - datos_juego['inicio_tiempo'])
     
     retorno = "juego"
+
     if bandera_respuesta:
         pygame.time.delay(250)
         #cuadro_pregunta["superficie"].fill(COLOR_ROJO)
@@ -73,8 +87,18 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
             lista_respuestas[i]["superficie"] = pygame.image.load("assets\images\_fondo_respuestas.jpg")
             lista_respuestas[i]["superficie"] = pygame.transform.scale(lista_respuestas[i]["superficie"],TAMAÑO_RESPUESTA)
         bandera_respuesta = False
+
+    if tiempo_restante <= 0:
+        datos_juego['inicio_tiempo'] = tiempo_actual
+        indice += 1
+        if indice >= len(lista_preguntas):
+            indice = 0
+            random.shuffle(lista_preguntas)
+        datos_juego["cantidad_vidas"] -= 1
+
+        if datos_juego["cantidad_vidas"] <= 0:
+            retorno = "terminado"
     
-    pregunta_actual = lista_preguntas[indice]
     
     for evento in cola_eventos:
         if evento.type == pygame.QUIT:
@@ -157,14 +181,10 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     
 
 
-    lista_respuestas[1]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[1]["superficie"], pregunta_actual['respuesta_2'], (20, 20), FUENTE_22, COLOR_BLANCO)
+    for i, respuesta in enumerate(lista_respuestas):
+        respuesta["superficie"].fill(COLOR_NEGRO)
+        mostrar_texto(respuesta["superficie"], pregunta_actual[f'respuesta_{i+1}'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
-    lista_respuestas[2]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[2]["superficie"], pregunta_actual['respuesta_3'], (20, 20), FUENTE_22, COLOR_BLANCO)
-
-    lista_respuestas[3]["superficie"].fill(COLOR_NEGRO)
-    mostrar_texto(lista_respuestas[3]["superficie"], pregunta_actual['respuesta_4'], (20, 20), FUENTE_22, COLOR_BLANCO)
 
     # mostrar comodines
     lista_comodines[0]["superficie"].fill(COLOR_GRIS if lista_comodines[0]["utilizado"] == True else COLOR_NEGRO) 
@@ -181,29 +201,47 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
     #MOSTRAR CUADROS EN PANTALLA    
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(50,40))
-    lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(50,155))#r1 #conn estos numeros modifico la posicion de las respuestas
-    lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(50,255))#r2
-    lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(50,355))#r3
-    lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(50,455))#r4
+    # lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(50,155))#r1 #conn estos numeros modifico la posicion de las respuestas
+    # lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(50,255))#r2
+    # lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(50,355))#r3
+    # lista_respuestas[3]["rectangulo"] = pantalla.blit(lista_respuestas[3]["superficie"],(50,455))#r4
     #comodines
     lista_comodines[0]["rectangulo"] = pantalla.blit(lista_comodines[0]["superficie"],(35,680))#r1
     lista_comodines[1]["rectangulo"] = pantalla.blit(lista_comodines[1]["superficie"],(145,680))#r2
     lista_comodines[2]["rectangulo"] = pantalla.blit(lista_comodines[2]["superficie"],(255,680))#r3
     lista_comodines[3]["rectangulo"] = pantalla.blit(lista_comodines[3]["superficie"],(365,680))#r4
+
+    # cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(80,80))
+
+    for i, respuesta in enumerate(lista_respuestas):
+        y_pos = 255 + i * 100  # Calcula la posición en Y dinámicamente
+        lista_respuestas[i]["rectangulo"] = pantalla.blit(lista_respuestas[i]["superficie"], (50, y_pos))
+
+    
     boton_imagen = boton_volumen["superficie"] if musica_activa else boton_volumen_silenciado["superficie"]
     pantalla.blit(boton_imagen, boton_rect.topleft)
+    
     boton_tiempo["rectangulo"] = pantalla.blit(boton_tiempo["superficie"],(10,770))
     
     
 
 
-    pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[0]["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[1]["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[2]["rectangulo"],2)
-    pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[3]["rectangulo"],2)
+    # pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
+    # pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[0]["rectangulo"],2)
+    # pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[1]["rectangulo"],2)
+    # pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[2]["rectangulo"],2)
+    # pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[3]["rectangulo"],2)
     
-    mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_22,COLOR_BLANCO)
-    mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(375,10),FUENTE_22,COLOR_BLANCO)
+    # mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_22,COLOR_BLANCO)
+    # mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(375,10),FUENTE_22,COLOR_BLANCO)
+   
+
+    for i in range(len(lista_respuestas)):
+        pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[i]["rectangulo"],2)
+    #MUESTRO INFORMACIÓN DEL JUEGADOR
+    mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(10,40),FUENTE_25,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"TIEMPO: {tiempo_restante}",(10,770),FUENTE_25,COLOR_BLANCO)
+    
     
     return retorno
