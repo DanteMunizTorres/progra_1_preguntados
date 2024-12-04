@@ -1,10 +1,10 @@
 ﻿Pregunta;Respuesta 1;Respuesta 2 ;Respuesta 3;Respuesta 4;Respuesta correcta
-¿Qué es un algoritmo?;Una variable en un programa; Un conjunto de pasos para resolver un problema;Un tipo de error de programación; Un lenguaje de programación; 2
+¿Qué es un algoritmo?;Una variable en un programa;Un conjunto de pasos para resolver un problema;Un tipo de error de programación;Un lenguaje de programación; 2
 ¿Cuál de estos es un lenguaje de programación de alto nivel?; Assembly; C; Java; Máquina;3
-¿Qué es un bucle for?; Una estructura de control que repite un bloque de código mientras se cumpla una condición; Una estructura de control que repite un bloque de código un número específico de veces; Un tipo de variable;Un tipo de función recursiva; 2
-¿Qué significa 'debugging'?; Escribir código;Encontrar y corregir errores en el código; Crear una nueva base de datos;Generar un informe de errores; 2
+¿Qué es un bucle for?;Una estructura de control que repite un bloque de código mientras se cumpla una condición; Una estructura de control que repite un bloque de código un número específico de veces; Un tipo de variable;Un tipo de función recursiva; 2
+¿Qué significa 'debugging'?;Escribir código;Encontrar y corregir errores en el código; Crear una nueva base de datos;Generar un informe de errores; 2
 ¿Qué es una clase en programación orientada a objetos?;Un bloque de código que define las funciones;Un tipo de error de ejecución;Un molde o plantilla para crear objetos;Una variable global; 3
-¿Qué es un 'array' o arreglo?; Una lista de valores del mismo tipo; Una función recursiva; Una estructura de control; Un tipo de archivo de texto; 1
+¿Qué es un 'array' o arreglo?;Una lista de valores del mismo tipo; Una función recursiva; Una estructura de control; Un tipo de archivo de texto; 1
 ¿Qué es un 'if' en programación?;Una estructura que permite ejecutar código basado en una condición;Un tipo de función;Un tipo de variable; Un tipo de ciclo o bucle; 1
 ¿Qué es una API (Interfaz de Programación de Aplicaciones)?;Un lenguaje de programación de alto nivel; Un conjunto de herramientas que facilita la programación; Un protocolo para la comunicación entre programas; Un sistema operativo;3
 ¿Qué es una variable en programación?;Un espacio en memoria para almacenar un valor;Un tipo de ciclo o bucle;Un error de programación;Una función recursiva;1
