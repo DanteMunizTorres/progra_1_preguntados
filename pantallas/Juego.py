@@ -74,7 +74,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     if 'inicio_tiempo' not in datos_juego:
         datos_juego['inicio_tiempo'] = tiempo_actual
     
-    tiempo_restante = 10 - (tiempo_actual - datos_juego['inicio_tiempo'])
+    tiempo_restante = 25 - (tiempo_actual - datos_juego['inicio_tiempo'])
     
     retorno = "juego"
 
@@ -92,7 +92,6 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
 
     if tiempo_restante <= 0:
-   
         datos_juego['inicio_tiempo'] = tiempo_actual
 
         # Limpia el cuadro de la pregunta
@@ -112,27 +111,6 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
             retorno = "terminado"        
         pregunta_actual = lista_preguntas[indice]  #Actualiza los datos para la siguiente pregunta
 
-      
-        # mostrar_texto(cuadro_pregunta["superficie"], f"{pregunta_actual['pregunta']}", (20, 20), FUENTE_20, COLOR_BLANCO)
-        # mostrar_texto(lista_respuestas[0]["superficie"], f"{pregunta_actual['respuesta_1']}", (20, 20), FUENTE_17, COLOR_BLANCO)
-        # mostrar_texto(lista_respuestas[1]["superficie"], f"{pregunta_actual['respuesta_2']}", (20, 20), FUENTE_17, COLOR_BLANCO)
-        # mostrar_texto(lista_respuestas[2]["superficie"], f"{pregunta_actual['respuesta_3']}", (20, 20), FUENTE_17, COLOR_BLANCO)
-        # mostrar_texto(lista_respuestas[3]["superficie"], f"{pregunta_actual['respuesta_4']}", (20, 20), FUENTE_17, COLOR_BLANCO)
-
-
-    # if tiempo_restante <= 0:
-    #     datos_juego['inicio_tiempo'] = tiempo_actual
-    #     indice += 1
-        
-    #     if indice >= len(lista_preguntas):
-    #         indice = 0
-    #         random.shuffle(lista_preguntas) 
-      
-    #     datos_juego["cantidad_vidas"] -= 1
-
-    #     if datos_juego["cantidad_vidas"] <= 0:
-    #         retorno = "terminado"
-    
     
     for evento in cola_eventos:
         if evento.type == pygame.QUIT:
@@ -178,8 +156,10 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
                     else:
                         if datos_juego["comodines"]["doble_chance"]:
-                            # Permitir una segunda selección antes de penalizar
                             datos_juego["comodines"]["doble_chance"] = False
+                            ERROR_SONIDO.play()
+                            lista_respuestas[i]["superficie"].fill(COLOR_ROJO)
+                            break
                         else:
                             ERROR_SONIDO.play()
                             lista_respuestas[i]["superficie"].fill(COLOR_ROJO)
@@ -220,19 +200,32 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                         ACIERTO_SONIDO.play()
                         comodin["utilizado"] = True
                         if comodin['id'] == COMODIN_BOMBA:
-                          print(f"Apretaste el comodin: {comodin['id']}")
+                            print(f"Apretaste el comodin: {comodin['id']}")
+                            usar_comodin_bomba(datos_juego)
+
                         elif comodin['id'] == COMODIN_X2:
                             usar_comodin_x2(datos_juego)
-                            # if respuesta_seleccionada == pregunta_actual["respuesta_correcta"]:
-                            #     puntos = PUNTUACION_ACIERTO * 2 if x2_activado 
-                            # else:
-                            #     PUNTUACION_ACIERTO
-                            #     datos_juego["puntuacion"] += puntos
                             print(f"Apretaste el comodin: {comodin['id']}")
+
                         elif comodin['id'] == COMODIN_CANCHE_EXTRA:
                             print(f"Apretaste el comodin: {comodin['id']}")
+                            usar_comodin_doble_chance(datos_juego)
+
                         elif comodin['id'] == COMODIN_PASAR:
                             print(f"Apretaste el comodin: {comodin['id']}")
+                            datos_juego['inicio_tiempo'] = tiempo_actual
+                            # Limpia el cuadro de la pregunta
+                            cuadro_pregunta["superficie"] = pygame.image.load("assets\images\_fondo_respuestas.jpg")
+                            cuadro_pregunta["superficie"] = pygame.transform.scale(cuadro_pregunta["superficie"],TAMAÑO_PREGUNTA)  
+                            for i in range(len(lista_respuestas)):
+                                lista_respuestas[i]["superficie"] = pygame.image.load("assets\images\_fondo_respuestas.jpg")
+                                lista_respuestas[i]["superficie"] = pygame.transform.scale(lista_respuestas[i]["superficie"],TAMAÑO_RESPUESTA)
+                            # Pasa a la siguiente pregunta
+                            indice += 1
+                            if indice >= len(lista_preguntas):
+                                indice = 0  #reinicia indice de preguntas
+                                random.shuffle(lista_preguntas)            
+                            pregunta_actual = lista_preguntas[indice]  #Actualiza los datos para la siguiente pregunta
 
 
 
@@ -254,9 +247,13 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
 
 
-
+    print('PREGUNTA ACTUAL ---------------------------------------------')
+    print('PREGUNTA ACTUAL --------------------------------------------- pregunta_actual:', pregunta_actual)
     
     mostrar_texto(cuadro_pregunta["superficie"],f"{pregunta_actual["pregunta"]}",(20,20),FUENTE_20,COLOR_BLANCO)
+
+
+    # if datos_juego['comodines']['bomba'] and "respuesta_1" == ("respuesta_" + pregunta_actual["respuesta_correcta"]):
     mostrar_texto(lista_respuestas[0]["superficie"],f"{pregunta_actual["respuesta_1"]}",(20,20),FUENTE_17,COLOR_BLANCO)
     mostrar_texto(lista_respuestas[1]["superficie"],f"{pregunta_actual["respuesta_2"]}",(20,20),FUENTE_17,COLOR_BLANCO)
     mostrar_texto(lista_respuestas[2]["superficie"],f"{pregunta_actual["respuesta_3"]}",(20,20),FUENTE_17,COLOR_BLANCO)
@@ -284,6 +281,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
     #MOSTRAR CUADROS EN PANTALLA    
     cuadro_pregunta["rectangulo"] = pantalla.blit(cuadro_pregunta["superficie"],(50,100))
+    
     lista_respuestas[0]["rectangulo"] = pantalla.blit(lista_respuestas[0]["superficie"],(50,255))#r1 #conn estos numeros modifico la posicion de las respuestas
     lista_respuestas[1]["rectangulo"] = pantalla.blit(lista_respuestas[1]["superficie"],(50,355))#r2
     lista_respuestas[2]["rectangulo"] = pantalla.blit(lista_respuestas[2]["superficie"],(50,455))#r3

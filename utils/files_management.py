@@ -11,7 +11,14 @@ def crear_diccionario_pregunta(lista_valores:list) -> dict:
         respuesta_correcta:int
       }
     '''
-    diccionario = {}
+    diccionario = {
+        # "pregunta"
+        # "respuesta_"
+        # "respuesta_"
+        # "respuesta_"
+        # "respuesta_"
+        # "respuesta_correcta"
+    }
     last_index = (len(lista_valores) -1)
     for index, valor in enumerate(lista_valores):
         if index == 0:

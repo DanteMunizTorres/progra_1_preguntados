@@ -68,18 +68,21 @@ def crear_comodines()->list:
 
 
 
-def usar_comodin_bomba(datos_juego, lista_respuestas, pregunta_actual):
-    if datos_juego['comodines']['bomba']:
-        datos_juego['comodines']['bomba'] = False  # Desactiva el comodín
-        # Filtra las respuestas incorrectas
-        respuestas_incorrectas = [
-            idx for idx, respuesta in enumerate(lista_respuestas)
-            if idx + 1 != pregunta_actual["respuesta_correcta"]
-        ]
-        # Elimina dos respuestas incorrectas
-        for idx in random.sample(respuestas_incorrectas, 2):
-            lista_respuestas[idx]["superficie"].fill(COLOR_GRIS)
-            lista_respuestas[idx]["rectangulo"] = pygame.Rect(0, 0, 0, 0)
+# def usar_comodin_bomba(datos_juego, lista_respuestas, pregunta_actual):
+def usar_comodin_bomba(datos_juego):
+    datos_juego['comodines']['bomba'] = True
+
+    # if datos_juego['comodines']['bomba']:
+    #     datos_juego['comodines']['bomba'] = False  # Desactiva el comodín
+    #     # Filtra las respuestas incorrectas
+    #     respuestas_incorrectas = [
+    #         idx for idx, respuesta in enumerate(lista_respuestas)
+    #         if idx + 1 != pregunta_actual["respuesta_correcta"]
+    #     ]
+    #     # Elimina dos respuestas incorrectas
+    #     for idx in random.sample(respuestas_incorrectas, 2):
+    #         lista_respuestas[idx]["superficie"].fill(COLOR_GRIS)
+    #         lista_respuestas[idx]["rectangulo"] = pygame.Rect(0, 0, 0, 0)
 
 
 def usar_comodin_x2(datos_juego):
