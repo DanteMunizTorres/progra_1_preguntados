@@ -46,6 +46,13 @@ def crear_objeto_imagen(imagen:str,tamaño:tuple)->dict:
     return objeto
 
 def crear_comodines()->list:
+    # boton_bomba = crear_objeto_imagen("assets\images\_bomba.jpeg",(40,40))
+    # # boton_bomba = crear_objeto_imagen("assets\images\_mute_dos.png",(40,40))
+    # boton_pasar = crear_objeto(TAMAÑO_BOTON_VOLVER,COLOR_BLANCO)
+    # boton_x2 = crear_objeto((40,40),COLOR_BLANCO)
+    # boton_doble_chance = crear_objeto_imagen("assets\images\_mute_dos.png",(40,40))
+    # boton_doble_chance = crear_objeto_imagen("assets\images\_doble_chance.png",(40,40))
+    # lista_comodines = [boton_bomba, boton_x2, boton_doble_chance, boton_pasar]
     lista_comodines = crear_cuadros(4,TAMAÑO_COMODIN,COLOR_VIOLETA)
     comodines_ids = [COMODIN_BOMBA, COMODIN_X2, COMODIN_CANCHE_EXTRA, COMODIN_PASAR,]
     for index, comodin in enumerate(lista_comodines):
@@ -53,6 +60,13 @@ def crear_comodines()->list:
         comodin['id'] = comodines_ids[index]
     return lista_comodines
     
+
+
+
+
+
+
+
 
 def usar_comodin_bomba(datos_juego, lista_respuestas, pregunta_actual):
     if datos_juego['comodines']['bomba']:
@@ -69,7 +83,34 @@ def usar_comodin_bomba(datos_juego, lista_respuestas, pregunta_actual):
 
 
 def usar_comodin_x2(datos_juego):
-    if datos_juego['comodines']['x2']:
-        datos_juego['comodines']['x2'] = False  # Desactiva el comodín
-        return True  # Señal para doblar los puntos
+    datos_juego['comodines']['x2'] = True # activar el comodin
+    # if datos_juego['comodines']['x2']:
+    #     datos_juego['comodines']['x2'] = False  # Desactiva el comodín
+    #     return True  # Señal para doblar los puntos
+    # return False
+
+
+def usar_comodin_doble_chance(datos_juego):
+    # if datos_juego['comodines']['doble_chance']:
+    datos_juego['comodines']['doble_chance'] = True  # Desactiva el comodín
+    #     return True  # Activa la lógica de doble oportunidad
+    # return False
+
+
+
+def usar_comodin_pasar(datos_juego):
+    if datos_juego['comodines']['pasar']:
+        datos_juego['comodines']['pasar'] = False  # Desactiva el comodín
+        return True  # Señal para pasar a la siguiente pregunta
     return False
+
+
+
+
+
+
+
+
+
+
+

@@ -156,18 +156,37 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                     print("respuesta_seleccionada:", respuesta_seleccionada)
                     print("pregunta_actual[respuesta_correcta]:", pregunta_actual["respuesta_correcta"])
                     
+
+
+
+                                          
                     if respuesta_seleccionada == pregunta_actual["respuesta_correcta"]:
                         ACIERTO_SONIDO.play()
                         print("RESPUESTA CORRECTA")
                         lista_respuestas[i]["superficie"].fill(COLOR_VERDE_OSCURO)
-                        datos_juego["puntuacion"] += PUNTUACION_ACIERTO
+
+
+                        puntos = PUNTUACION_ACIERTO
+
+                        if datos_juego['comodines']['x2'] == True:
+                            puntos = PUNTUACION_ACIERTO * 2
+                            datos_juego['comodines']['x2'] = False
+
+                        datos_juego["puntuacion"] += puntos
+
+
+
                     else:
-                        ERROR_SONIDO.play()
-                        lista_respuestas[i]["superficie"].fill(COLOR_ROJO)
-                        if datos_juego["puntuacion"] > 0:
-                            datos_juego["puntuacion"] -= PUNTUACION_ERROR
-                        datos_juego["cantidad_vidas"] -= 1
-                        vida_extra = False
+                        if datos_juego["comodines"]["doble_chance"]:
+                            # Permitir una segunda selección antes de penalizar
+                            datos_juego["comodines"]["doble_chance"] = False
+                        else:
+                            ERROR_SONIDO.play()
+                            lista_respuestas[i]["superficie"].fill(COLOR_ROJO)
+                            if datos_juego["puntuacion"] > 0:
+                                datos_juego["puntuacion"] -= PUNTUACION_ERROR
+                            datos_juego["cantidad_vidas"] -= 1
+                            vida_extra = False
 
                     if datos_juego["aciertos"] == 5 and vida_extra == True:
                         datos_juego["cantidad_vidas"] += 1
@@ -182,29 +201,35 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
 
             
 
-            # for comodin in lista_comodines:
-            #     if comodin["rectangulo"].collidepoint(evento.pos):
+            for comodin in lista_comodines:
+                if comodin["rectangulo"].collidepoint(evento.pos):
               
-            #         if comodin["utilizado"] == True:
-            #             ERROR_SONIDO.play()
-            #             print("YA USASTE ESTE COMODIN AMIGO")
-            #             lista_comodines[i]["superficie"].fill(COLOR_VERDE_OSCURO)
-            #         else:
-            #             ACIERTO_SONIDO.play()
-            #             comodin["utilizado"] = True
-            #             if comodin['id'] == COMODIN_BOMBA:
-            #               print(f"Apretaste el comodin: {comodin['id']}")
-            #             elif comodin['id'] == COMODIN_X2:
-            #                 if respuesta_seleccionada == pregunta_actual["respuesta_correcta"]:
-            #                     puntos = PUNTUACION_ACIERTO * 2 if x2_activado 
-            #                 else:
-            #                     PUNTUACION_ACIERTO
-            #                     datos_juego["puntuacion"] += puntos
-            #                 print(f"Apretaste el comodin: {comodin['id']}")
-            #             elif comodin['id'] == COMODIN_CANCHE_EXTRA:
-            #               print(f"Apretaste el comodin: {comodin['id']}")
-            #             elif comodin['id'] == COMODIN_PASAR:
-            #               print(f"Apretaste el comodin: {comodin['id']}")
+                    if comodin["utilizado"] == True:
+                        ERROR_SONIDO.play()
+                        print("YA USASTE ESTE COMODIN AMIGO")
+                        lista_comodines[i]["superficie"].fill(COLOR_VERDE_OSCURO)
+                    else:
+                        ACIERTO_SONIDO.play()
+                        comodin["utilizado"] = True
+                        if comodin['id'] == COMODIN_BOMBA:
+                          print(f"Apretaste el comodin: {comodin['id']}")
+                        elif comodin['id'] == COMODIN_X2:
+                            usar_comodin_x2(datos_juego)
+                            # if respuesta_seleccionada == pregunta_actual["respuesta_correcta"]:
+                            #     puntos = PUNTUACION_ACIERTO * 2 if x2_activado 
+                            # else:
+                            #     PUNTUACION_ACIERTO
+                            #     datos_juego["puntuacion"] += puntos
+                            print(f"Apretaste el comodin: {comodin['id']}")
+                        elif comodin['id'] == COMODIN_CANCHE_EXTRA:
+                            print(f"Apretaste el comodin: {comodin['id']}")
+                        elif comodin['id'] == COMODIN_PASAR:
+                            print(f"Apretaste el comodin: {comodin['id']}")
+
+
+
+
+    
                     
     
 
@@ -272,6 +297,8 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     pantalla.blit(boton_imagen, boton_rect.topleft)
     
     boton_tiempo["rectangulo"] = pantalla.blit(boton_tiempo["superficie"],(10,770))
+
+
     
     # pygame.draw.rect(pantalla,COLOR_NEGRO,cuadro_pregunta["rectangulo"],2)
     # pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[0]["rectangulo"],2)
@@ -286,8 +313,8 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     for i in range(len(lista_respuestas)):
         pygame.draw.rect(pantalla,COLOR_BLANCO,lista_respuestas[i]["rectangulo"],2)
     #MUESTRO INFORMACIÓN DEL JUEGADOR
-    mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_NEGRO)
-    mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(375,10),FUENTE_25,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"PUNTUACION: {datos_juego['puntuacion']}",(10,10),FUENTE_25,COLOR_BLANCO)
+    mostrar_texto(pantalla,f"VIDAS: {datos_juego['cantidad_vidas']}",(375,10),FUENTE_25,COLOR_BLANCO)
     mostrar_texto(pantalla,f"TIEMPO: {tiempo_restante}",(10,770),FUENTE_25,COLOR_BLANCO)
     
     
